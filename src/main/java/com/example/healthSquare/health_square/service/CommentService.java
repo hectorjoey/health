@@ -1,6 +1,5 @@
 package com.example.healthSquare.health_square.service;
 
-import com.example.healthSquare.health_square.exception.ResourceNotFoundException;
 import com.example.healthSquare.health_square.model.Comment;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CommentService {
 
-    Comment updateComment(Comment comment) throws ResourceNotFoundException;
+    Comment updateComment(Comment comment);
 
-    void deleteComment(String message) throws ResourceNotFoundException;
+    void deleteComment(String message);
 }

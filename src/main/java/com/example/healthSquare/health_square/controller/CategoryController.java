@@ -1,8 +1,13 @@
 package com.example.healthSquare.health_square.controller;
 
+import com.example.healthSquare.health_square.exception.ResourceNotFoundException;
 import com.example.healthSquare.health_square.model.Category;
+import com.example.healthSquare.health_square.model.Post;
 import com.example.healthSquare.health_square.repository.CategoryRepository;
+import com.example.healthSquare.health_square.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +23,9 @@ public class CategoryController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    CategoryService categoryService;
+
     @GetMapping(value = "/list")
     public List<Category> findAll() {
         return categoryRepository.findAll();
@@ -31,6 +39,13 @@ public class CategoryController {
     @PostMapping(value = "/add")
     public Category addCategory(@RequestBody Category category) {
         return categoryRepository.save(category);
+    }
+
+
+    @PutMapping("/category/{name}")
+    public ResponseEntity<Category> updateCategory(@PathVariable String name, @RequestBody Category category) throws ResourceNotFoundException {
+        category.setCategoryname(name);
+        return ResponseEntity.ok().body(this.categoryService.updateCategory(category));
     }
 
 }

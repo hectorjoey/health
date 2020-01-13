@@ -1,7 +1,10 @@
 package com.example.healthSquare.health_square.controller;
 
+import com.example.healthSquare.health_square.exception.ResourceNotFoundException;
+import com.example.healthSquare.health_square.model.Post;
 import com.example.healthSquare.health_square.repository.CommentRepository;
 import com.example.healthSquare.health_square.model.Comment;
+import com.example.healthSquare.health_square.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,9 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    CommentService commentService;
+
     @GetMapping(value = "/list")
     public List<Comment> findAll() {
         return commentRepository.findAll();
@@ -27,5 +33,17 @@ public class CommentController {
     @PostMapping(value = "/add")
     public ResponseEntity<?> createComment(@RequestBody Comment comment){
         return new ResponseEntity<>(commentRepository.save(comment), HttpStatus.OK);
+    }
+
+    @PutMapping("/comment/{message}")
+    public ResponseEntity<Comment> updateComment(@PathVariable String message, @RequestBody Comment comment) {
+        comment.setMessage(message);
+        return ResponseEntity.ok().body(this.commentService.updateComment(comment));
+    }
+
+    @DeleteMapping("/{message}")
+    public HttpStatus deleteComment(@PathVariable String message) throws ResourceNotFoundException {
+        this.commentService.deleteComment(message);
+        return HttpStatus.FORBIDDEN;
     }
 }

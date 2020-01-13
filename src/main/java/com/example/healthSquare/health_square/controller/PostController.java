@@ -48,7 +48,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{title}")
-    public HttpStatus deleteProduct(@PathVariable String title) throws ResourceNotFoundException {
+    public HttpStatus deletePost(@PathVariable String title) throws ResourceNotFoundException {
         this.postService.deletePost(title);
         return HttpStatus.FORBIDDEN;
     }

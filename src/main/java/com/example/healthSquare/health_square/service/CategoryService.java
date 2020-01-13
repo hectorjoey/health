@@ -12,6 +12,4 @@ import org.springframework.stereotype.Service;
 public interface CategoryService {
     Category updateCategory(Category category) throws ResourceNotFoundException;
 
-    void deleteCategory(String message);
-
 }
